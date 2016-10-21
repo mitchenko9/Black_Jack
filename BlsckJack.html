@@ -1,0 +1,76 @@
+
+<meta charset="utf-8">
+<script> 
+function getRandomInt(min,max){
+	return Math.floor(Math.random() * (max-min*1)) - min;
+}
+function getCard(){
+	var card = ['6','7','8', '9','10', 'J', 'Q', 'K', 'A'];
+	return card[getRandomInt(0, card.length - 1)];
+}
+function getSum(arr){
+	var sum = 0;
+	var i;
+	for(i=0; i<arr.length; i++) {
+		var b = arr[i];
+		if(b != 'A'){
+			if(b == 'J' || b == 'Q' || b=='K'){
+				sum = sum +10;
+			} else {
+				sum = sum + parseInt(b);
+			}
+		}
+	}
+	for(i=0; i<arr.length; i++){
+		if (arr[i] == 'A'){
+			if(sum>10){
+				sum = sum + 1;
+			} else {
+				sum = sum +11;
+			} 
+		}
+	}
+	return sum;
+}
+ var dealer = [getCard()];
+ var player = [getCard(), getCard()];
+function getStatus(){
+	return 'Дилер: ' + dealer + " Игрок: " + player;
+}
+
+if(getSum(player) == 21){
+	alert("Выиграл прямо с раздачи!");
+}else {
+var answer = ' ';
+do{
+	answer = prompt(getStatus() + "Хотите еще одну карту? 1 - да, иначе - нет");
+	if (answer == '1'){
+		player.push(getCard());
+		if(getSum(player) == 21){
+			alert("У вас 21 очко! Вы выиграли!");
+			break;
+		} else if(getSum(player) > 21){
+			alert("У вас перебор. вы проиграли!");
+			break;
+		}
+	} else {
+		while(getSum(dealer)<17){
+			dealer.push(getCard());
+		}
+		a = getSum(dealer);
+		c = getSum(player);
+		if(a == 21){
+			alert('Диллер выиграл ' + getStatus());
+		} else if(a > 21){
+			alert('У Дилера перебор ' + getStatus());
+		} else if(a == c){
+			alert('Ничья ' + getStatus());
+		}else if(a<c){
+			alert('Игрок выиграл ' + getStatus());
+		}else {
+			alert('Игрок проиграл ' + getStatus());
+		}
+	}
+} while (answer == "1");
+}
+</script>
